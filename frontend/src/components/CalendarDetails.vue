@@ -2,13 +2,12 @@
     <div class="q-pa-md">
 
         <q-form
-            :disable="isDisabled"
             @submit="onSubmit"
             class="q-gutter-md"
         >
             <q-select 
                 filled 
-                v-model="model" 
+                v-model="store.location" 
                 :options="options" 
                 label="Filled" 
             />
@@ -22,21 +21,9 @@
                 :rules="[ val => val && val.length > 8 || 'Моля проверете дали сте въвели правилно телефонния си номер']"
             />
 
-            <q-input
-            :disable="isDisabled"
-            type="email"
-            v-model="store.email"
-            label="Вашият имейл *"
-            lazy-rules
-            :rules="[ val => val && validateEmail(val) || 'Моля проверете дали сте въвели правилно имейла си']"
-            />
-
             <div>
-                <q-btn :disabled="isDisabled" label="Запазване" type="submit" class="bg-primary text-dark"/>
+                <q-btn label="Запазване" type="submit" class="bg-primary text-dark"/>
             </div>
-            <q-tooltip anchor="top middle" :class="`text-body1 bg-primary text-dark ${isDisabled ? '': 'invisible'}`">
-                Първо изберете часа, който желаете за прегледа
-            </q-tooltip>
         </q-form>
 
     </div>
@@ -46,7 +33,7 @@
 import { computed, ref } from 'vue';
 import useAppointmentStore from '../stores/appointment.store';
 
-const options = ref(['Google', 'Facebook', 'Twitter', 'Apple', 'Oracle']);
+const options = ref(['Sofia', 'Plovdiv', 'Veliko Tarnovo', 'Burgas']);
 
 const store = useAppointmentStore();
 
