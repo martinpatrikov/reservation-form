@@ -7,7 +7,7 @@ const calendar = google.calendar({
 	version: 'v3',
 	auth
 });
-const calendarId = await getCalendarIdByName('Online');
+let calendarId;
 
 async function getCalendarIdByName(name) {
 	const res = await calendar.calendarList.list().catch(console.error);
@@ -16,7 +16,9 @@ async function getCalendarIdByName(name) {
 	return result.id;
 }
 
-export async function getAvailableEvents() {
+export async function getAvailableEvents(calendarName) {
+	calendarId = await getCalendarIdByName(calendarName);
+
 	let start = new Date();
 	let end = new Date();
 	end.setDate(end.getDate() + 30);
@@ -42,8 +44,8 @@ export async function getAvailableEvents() {
 	return eventsRes;
 }
 
-export async function setEvent(summary, date) {
-	let events = await getAvailableEvents();
+export async function setEvent(summary, date, calendarName = 'Online') {
+	let events = await getAvailableEvents(calendarName);
 	let event = events.find(e => (new Date(e.start.dateTime)).getTime() == (new Date(date)).getTime());
 	event.summary = summary;
 	console.log(event);

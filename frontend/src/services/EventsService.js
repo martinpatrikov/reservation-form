@@ -1,5 +1,5 @@
-export async function getAllEvents() {
-	const response = await fetch('http://localhost:3000/all-events');
+export async function getAllEvents(location = 'Online') {
+	const response = await fetch(`http://localhost:3000/all-events/${location}`);
 	return await response.json();
 }
 

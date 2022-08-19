@@ -12,11 +12,11 @@ import CalendarDetails from '../components/CalendarDetails.vue';
           <img src="../assets/logo.png"/>
         </q-avatar>
         <q-toolbar-title class="text-h4">
-          Запазване на час за преглед
+          Запазване на игра
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
-    <CalendarDetails class="col-7"/>
+    <!-- <CalendarDetails class="col-7"/> -->
     <CalendarForm class="col-7"/>
     <DetailsForm class="col-7"></DetailsForm>
   </q-page>

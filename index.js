@@ -14,15 +14,17 @@ app.use(cors({
 app.use(express.json());
 
 app.get('/', (req, res) => res.send('Hello World!'));
-app.get('/all-events', async (req, res) => {
-	let events = await getAvailableEvents();
+app.get('/all-events/:calendar', async (req, res) => {
+	const calendarName = req.params.calendar;
+	let events = await getAvailableEvents(calendarName);
 	res.send(JSON.stringify(events));
 });
 
 app.post('/save-event', async (req, res) => {
 	const summary = `${req.body.name} - ${req.body.phoneNumber} - ${req.body.email}`;
 	const date = req.body.dateAndTime;
-	await setEvent(summary, date);
+	const calendarName = req.body.calendar;
+	await setEvent(summary, date, calendarName);
 	res.status(200);
 });
 

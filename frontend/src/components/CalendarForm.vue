@@ -1,5 +1,42 @@
 <template>
+	<!-- <div class="q-pa-md">
+
+        <q-form
+            @submit="onSubmit"
+            class="q-gutter-md"
+        >
+            <q-select 
+                filled 
+                v-model="store.location" 
+                :options="options"
+                @change="onSelection" 
+                label="Filled" 
+            />
+
+            <div>
+                <q-btn label="Запазване" type="submit" class="bg-primary text-dark"/>
+            </div>
+        </q-form>
+
+	</div> -->
   <div class="simple-example">
+	<q-form
+            @submit="onSubmit"
+            class="q-gutter-md"
+        >
+            <q-select 
+                filled 
+                v-model="store.location" 
+                :options="options"
+				 @update:model-value="changeCalendar()"
+                
+                label="Filled" 
+            />
+
+            <!-- <div>
+                <q-btn label="Запазване" type="submit" class="bg-primary text-dark"/>
+            </div> -->
+    </q-form>
     <vue-meeting-selector
       v-model="meeting"
 	  v-bind:hidden="isChosen"
@@ -7,6 +44,7 @@
       :loading="loading"
       :class-names="classNames"
       :meetings-days="meetingsDays"
+	  
       ref="meetingSelector"
       @next-date="nextPage"
       @previous-date="prevPage"
@@ -53,6 +91,8 @@ import VueMeetingSelector from 'vue-meeting-selector';
 import { getAllEvents } from '../services/EventsService';
 import slotsGenerator from '../services/SlotsService';
 import useAppointmentStore from '../stores/appointment.store';
+
+const options = ref(['Sofia', 'Plovdiv', 'Veliko Tarnovo', 'Online']);
 
 const meetingSelector = ref(null);
 
@@ -135,13 +175,18 @@ function down() {
 	meetingSelector.value.nextMeetings();
 }
 
-onMounted(async () => {
-	let all = await getAllEvents();
+async function changeCalendar(){
+	const location = store.location || 'Online';
+	let all = await getAllEvents(location);
 	allEvents.value = all;
 
 	allMeetingsDays.value = slotsGenerator(all);
 	meetingsDays.value = allMeetingsDays.value.slice(0, nbDaysToDisplay.value);
 	loading.value = false;
+}
+
+onMounted(async () => {
+	await changeCalendar();
 });
 
 </script>
