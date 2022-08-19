@@ -1,24 +1,4 @@
 <template>
-	<!-- <div class="q-pa-md">
-
-        <q-form
-            @submit="onSubmit"
-            class="q-gutter-md"
-        >
-            <q-select 
-                filled 
-                v-model="store.location" 
-                :options="options"
-                @change="onSelection" 
-                label="Filled" 
-            />
-
-            <div>
-                <q-btn label="Запазване" type="submit" class="bg-primary text-dark"/>
-            </div>
-        </q-form>
-
-	</div> -->
   <div class="simple-example">
 	<q-form
             @submit="onSubmit"
@@ -28,9 +8,8 @@
                 filled 
                 v-model="store.location" 
                 :options="options"
-				 @update:model-value="changeCalendar()"
-                
-                label="Filled" 
+				@update:model-value="changeCalendar()"
+                label="Избери Локация" 
             />
 
             <!-- <div>
@@ -92,11 +71,12 @@ import { getAllEvents } from '../services/EventsService';
 import slotsGenerator from '../services/SlotsService';
 import useAppointmentStore from '../stores/appointment.store';
 
-const options = ref(['Sofia', 'Plovdiv', 'Veliko Tarnovo', 'Online']);
+const options = ref(['Sofia', 'Online']);
 
 const meetingSelector = ref(null);
 
 const store = useAppointmentStore();
+store.location = 'Online';
 
 const date = ref(new Date());
 const meetingsDays = ref([]);
@@ -176,7 +156,7 @@ function down() {
 }
 
 async function changeCalendar(){
-	const location = store.location || 'Online';
+	const location = store.location;
 	let all = await getAllEvents(location);
 	allEvents.value = all;
 
